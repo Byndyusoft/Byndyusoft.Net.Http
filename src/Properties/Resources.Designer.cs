@@ -61,6 +61,15 @@ namespace System.Net.Http.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value must be greater than or equal to {0}..
+        /// </summary>
+        internal static string ArgumentMustBeGreaterThanOrEqualTo {
+            get {
+                return ResourceManager.GetString("ArgumentMustBeGreaterThanOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A null &apos;{0}&apos; is not valid..
         /// </summary>
         internal static string CannotHaveNullInList {
@@ -97,11 +106,29 @@ namespace System.Net.Http.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The media type formatter of type &apos;{0}&apos; does not support reading because it does not implement the ReadFromStream method..
+        /// </summary>
+        internal static string MediaTypeFormatterCannotReadSync {
+            get {
+                return ResourceManager.GetString("MediaTypeFormatterCannotReadSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The media type formatter of type &apos;{0}&apos; does not support writing because it does not implement the WriteToStreamAsync method..
         /// </summary>
         internal static string MediaTypeFormatterCannotWrite {
             get {
                 return ResourceManager.GetString("MediaTypeFormatterCannotWrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The media type formatter of type &apos;{0}&apos; does not support writing because it does not implement the WriteToStream method..
+        /// </summary>
+        internal static string MediaTypeFormatterCannotWriteSync {
+            get {
+                return ResourceManager.GetString("MediaTypeFormatterCannotWriteSync", resourceCulture);
             }
         }
         

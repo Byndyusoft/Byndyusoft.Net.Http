@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArgumentMustBeGreaterThanOrEqualTo" xml:space="preserve">
+    <value>Value must be greater than or equal to {0}.</value>
+  </data>
   <data name="CannotHaveNullInList" xml:space="preserve">
     <value>A null '{0}' is not valid.</value>
   </data>
@@ -129,8 +132,14 @@
   <data name="MediaTypeFormatterCannotRead" xml:space="preserve">
     <value>The media type formatter of type '{0}' does not support reading because it does not implement the ReadFromStreamAsync method.</value>
   </data>
+  <data name="MediaTypeFormatterCannotReadSync" xml:space="preserve">
+    <value>The media type formatter of type '{0}' does not support reading because it does not implement the ReadFromStream method.</value>
+  </data>
   <data name="MediaTypeFormatterCannotWrite" xml:space="preserve">
     <value>The media type formatter of type '{0}' does not support writing because it does not implement the WriteToStreamAsync method.</value>
+  </data>
+  <data name="MediaTypeFormatterCannotWriteSync" xml:space="preserve">
+    <value>The media type formatter of type '{0}' does not support writing because it does not implement the WriteToStream method.</value>
   </data>
   <data name="MediaTypeFormatterNoEncoding" xml:space="preserve">
     <value>No encoding found for media type formatter '{0}'. There must be at least one supported encoding registered in order for the media type formatter to read or write content.</value>

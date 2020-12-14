@@ -5,6 +5,7 @@ namespace System.Net.Http
 {
     public class MediaTypeConstantsTests
     {
+        // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Local
         private static void ValidateClones(MediaTypeHeaderValue clone1, MediaTypeHeaderValue clone2, string charset)
         {
             Assert.NotNull(clone1);
@@ -14,6 +15,7 @@ namespace System.Net.Http
             Assert.Equal(charset, clone1.CharSet);
             Assert.Equal(charset, clone2.CharSet);
         }
+        // ReSharper enable ParameterOnlyUsedForPreconditionCheck.Local
 
         [Fact]
         public void ApplicationOctetStreamMediaType_ReturnsClone()

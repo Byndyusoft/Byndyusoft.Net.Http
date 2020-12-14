@@ -33,7 +33,7 @@ namespace System.Net.Http
             formatterMock.Setup(f => f.CanWriteType(typeof(string))).Returns(true);
             var formatter = formatterMock.Object;
 
-            var content = new ObjectContent<string>(null, formatter, (MediaTypeHeaderValue) null);
+            var content = new ObjectContent<string>(null, formatter);
 
             Assert.Same(formatter, content.Formatter);
         }

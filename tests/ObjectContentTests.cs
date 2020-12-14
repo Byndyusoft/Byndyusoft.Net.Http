@@ -101,7 +101,7 @@ namespace System.Net.Http
         [Fact]
         public void Constructor_SetsFormatterProperty()
         {
-            var content = new ObjectContent(typeof(object), _value, _formatter, (MediaTypeHeaderValue) null);
+            var content = new ObjectContent(typeof(object), _value, _formatter);
 
             Assert.Same(_formatter, content.Formatter);
         }
@@ -166,30 +166,11 @@ namespace System.Net.Http
         public void TryComputeLength_ReturnsFalseAnd0()
         {
             var oc = new TestableObjectContent(typeof(string), null, _formatter);
-            long length;
 
-            var result = oc.CallTryComputeLength(out length);
+            var result = oc.CallTryComputeLength(out var length);
 
             Assert.False(result);
             Assert.Equal(-1, length);
-        }
-
-        public class TestableObjectContent : ObjectContent
-        {
-            public TestableObjectContent(Type type, object value, MediaTypeFormatter formatter)
-                : base(type, value, formatter)
-            {
-            }
-
-            public bool CallTryComputeLength(out long length)
-            {
-                return TryComputeLength(out length);
-            }
-
-            public Task CallSerializeToStreamAsync(Stream stream, TransportContext context)
-            {
-                return SerializeToStreamAsync(stream, context);
-            }
         }
     }
 }

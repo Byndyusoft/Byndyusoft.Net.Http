@@ -73,5 +73,17 @@ namespace System.Net.Http
             return new UnsupportedMediaTypeException(
                 Format(Properties.Resources.NoReadSerializerAvailable, type.Name, mediaType.MediaType), mediaType);
         }
+
+        /// <summary>
+        /// Creates an <see cref="ArgumentOutOfRangeException"/> with a message saying that the argument must be greater than or equal to <paramref name="minValue"/>.
+        /// </summary>
+        /// <param name="parameterName">The name of the parameter that caused the current exception.</param>
+        /// <param name="actualValue">The value of the argument that causes this exception.</param>
+        /// <param name="minValue">The minimum size of the argument.</param>
+        /// <returns>The logged <see cref="Exception"/>.</returns>
+        internal static ArgumentOutOfRangeException ArgumentMustBeGreaterThanOrEqualTo(string parameterName, object actualValue, object minValue)
+        {
+            return new ArgumentOutOfRangeException(parameterName, actualValue, Format(Properties.Resources.ArgumentMustBeGreaterThanOrEqualTo, minValue));
+        }
     }
 }
