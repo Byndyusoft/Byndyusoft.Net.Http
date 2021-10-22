@@ -9,7 +9,7 @@ namespace System.Net.Http
     ///     Contains a value as well as an associated <see cref="MediaTypeFormatter" /> that will be
     ///     used to serialize the value when writing this content.
     /// </summary>
-    public class ObjectContent : HttpContent
+    public class ObjectContent : HttpContent, IAsyncDisposable
     {
         private object? _value;
 
@@ -74,9 +74,22 @@ namespace System.Net.Http
             set => VerifyAndSetObject(value);
         }
 
+        public async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+
+            Dispose(false);
+            GC.SuppressFinalize(this);
+        }
+
         internal static MediaTypeHeaderValue? BuildHeaderValue(string? mediaType)
         {
             return mediaType != null ? new MediaTypeHeaderValue(mediaType) : null;
+        }
+
+        protected virtual ValueTask DisposeAsyncCore()
+        {
+            return new ValueTask();
         }
 
         /// <summary>
