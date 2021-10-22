@@ -1,4 +1,4 @@
-﻿namespace System.Net.Http.Formatting
+namespace System.Net.Http.Formatting
 {
     internal enum MediaTypeHeaderValueRange
     {

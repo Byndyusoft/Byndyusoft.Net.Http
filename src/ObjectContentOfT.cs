@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Formatting;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 
 namespace System.Net.Http

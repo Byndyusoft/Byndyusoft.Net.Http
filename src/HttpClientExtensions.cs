@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading;
