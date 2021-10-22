@@ -11,7 +11,7 @@ namespace System.Net.Http
     /// </summary>
     public class ObjectContent : HttpContent
     {
-        private object _value;
+        private object? _value;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ObjectContent" /> class.
@@ -23,7 +23,7 @@ namespace System.Net.Http
         ///     The authoritative value of the content's Content-Type header. Can be <c>null</c> in which case the
         ///     <paramref name="formatter">formatter's</paramref> default content type will be used.
         /// </param>
-        public ObjectContent(Type type, object value, MediaTypeFormatter formatter, string mediaType)
+        public ObjectContent(Type type, object? value, MediaTypeFormatter formatter, string mediaType)
             : this(type, value, formatter, BuildHeaderValue(mediaType))
         {
         }
@@ -38,8 +38,8 @@ namespace System.Net.Http
         ///     The authoritative value of the content's Content-Type header. Can be <c>null</c> in which case the
         ///     <paramref name="formatter">formatter's</paramref> default content type will be used.
         /// </param>
-        public ObjectContent(Type type, object value, MediaTypeFormatter formatter,
-            MediaTypeHeaderValue mediaType = null)
+        public ObjectContent(Type type, object? value, MediaTypeFormatter formatter,
+            MediaTypeHeaderValue? mediaType = null)
         {
             if (type == null) throw Error.ArgumentNull(nameof(type));
             if (formatter == null) throw Error.ArgumentNull(nameof(formatter));
@@ -68,13 +68,13 @@ namespace System.Net.Http
         /// <summary>
         ///     Gets or sets the value of the current <see cref="ObjectContent" />.
         /// </summary>
-        public object Value
+        public object? Value
         {
             get => _value;
             set => VerifyAndSetObject(value);
         }
 
-        internal static MediaTypeHeaderValue BuildHeaderValue(string mediaType)
+        internal static MediaTypeHeaderValue? BuildHeaderValue(string? mediaType)
         {
             return mediaType != null ? new MediaTypeHeaderValue(mediaType) : null;
         }
@@ -108,7 +108,7 @@ namespace System.Net.Http
                    type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
-        private void VerifyAndSetObject(object value)
+        private void VerifyAndSetObject(object? value)
         {
             if (value == null)
             {
@@ -122,7 +122,7 @@ namespace System.Net.Http
                 // Non-null objects must be a type assignable to Type
                 var objectType = value.GetType();
                 if (!ObjectType.IsAssignableFrom(objectType))
-                    throw Error.Argument("value", Properties.Resources.ObjectAndTypeDisagree, objectType.Name,
+                    throw Error.Argument(nameof(value), Properties.Resources.ObjectAndTypeDisagree, objectType.Name,
                         ObjectType.Name);
             }
 

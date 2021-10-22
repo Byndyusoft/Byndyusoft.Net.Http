@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 namespace System.Net.Http.Internal
 {
     /// <summary>
-    /// Stream that delegates to inner stream.
-    /// This is taken from System.Net.Http
+    ///     Stream that delegates to inner stream.
+    ///     This is taken from System.Net.Http
     /// </summary>
     internal abstract class DelegatingStream : Stream
     {
@@ -16,8 +16,6 @@ namespace System.Net.Http.Internal
         {
             _innerStream = innerStream ?? throw Error.ArgumentNull(nameof(innerStream));
         }
-
-        protected Stream InnerStream => _innerStream;
 
         public override bool CanRead => _innerStream.CanRead;
 
@@ -49,10 +47,7 @@ namespace System.Net.Http.Internal
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                _innerStream.Dispose();
-            }
+            if (disposing) _innerStream.Dispose();
             base.Dispose(disposing);
         }
 
@@ -71,7 +66,8 @@ namespace System.Net.Http.Internal
             return _innerStream.ReadAsync(buffer, offset, count, cancellationToken);
         }
 
-        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
+        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback,
+            object state)
         {
             return _innerStream.BeginRead(buffer, offset, count, callback, state);
         }

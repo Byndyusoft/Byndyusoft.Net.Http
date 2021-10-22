@@ -47,7 +47,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, string requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue) null,
+            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
                 cancellationToken);
         }
 
@@ -67,7 +67,7 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, string requestUri, T value,
-            MediaTypeFormatter formatter, string mediaType)
+            MediaTypeFormatter formatter, string? mediaType)
         {
             return client.PostAsync(requestUri, value, formatter, mediaType, CancellationToken.None);
         }
@@ -91,7 +91,7 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, string requestUri, T value,
-            MediaTypeFormatter formatter, string mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, string? mediaType, CancellationToken cancellationToken)
         {
             return client.PostAsync(requestUri, value, formatter, ObjectContent.BuildHeaderValue(mediaType),
                 cancellationToken);
@@ -116,9 +116,9 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, string requestUri, T value,
-            MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, MediaTypeHeaderValue? mediaType, CancellationToken cancellationToken)
         {
-            if (client == null) throw Error.ArgumentNull("client");
+            if (client == null) throw Error.ArgumentNull(nameof(client));
 
             var content = new ObjectContent<T>(value, formatter, mediaType);
 
@@ -160,7 +160,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, Uri requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue) null,
+            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
                 cancellationToken);
         }
 
@@ -180,7 +180,7 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, Uri requestUri, T value,
-            MediaTypeFormatter formatter, string mediaType)
+            MediaTypeFormatter formatter, string? mediaType)
         {
             return client.PostAsync(requestUri, value, formatter, mediaType, CancellationToken.None);
         }
@@ -204,7 +204,7 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, Uri requestUri, T value,
-            MediaTypeFormatter formatter, string mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, string? mediaType, CancellationToken cancellationToken)
         {
             return client.PostAsync(requestUri, value, formatter, ObjectContent.BuildHeaderValue(mediaType),
                 cancellationToken);
@@ -229,9 +229,9 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, Uri requestUri, T value,
-            MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, MediaTypeHeaderValue? mediaType, CancellationToken cancellationToken)
         {
-            if (client == null) throw Error.ArgumentNull("client");
+            if (client == null) throw Error.ArgumentNull(nameof(client));
 
             var content = new ObjectContent<T>(value, formatter, mediaType);
 
@@ -273,7 +273,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, string requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue) null,
+            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
                 cancellationToken);
         }
 
@@ -317,7 +317,7 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, string requestUri, T value,
-            MediaTypeFormatter formatter, string mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, string? mediaType, CancellationToken cancellationToken)
         {
             return client.PutAsync(requestUri, value, formatter, ObjectContent.BuildHeaderValue(mediaType),
                 cancellationToken);
@@ -342,9 +342,9 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, string requestUri, T value,
-            MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, MediaTypeHeaderValue? mediaType, CancellationToken cancellationToken)
         {
-            if (client == null) throw Error.ArgumentNull("client");
+            if (client == null) throw Error.ArgumentNull(nameof(client));
 
             var content = new ObjectContent<T>(value, formatter, mediaType);
 
@@ -386,7 +386,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, Uri requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue) null,
+            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
                 cancellationToken);
         }
 
@@ -406,7 +406,7 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, Uri requestUri, T value,
-            MediaTypeFormatter formatter, string mediaType)
+            MediaTypeFormatter formatter, string? mediaType)
         {
             return client.PutAsync(requestUri, value, formatter, mediaType, CancellationToken.None);
         }
@@ -430,7 +430,7 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, Uri requestUri, T value,
-            MediaTypeFormatter formatter, string mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, string? mediaType, CancellationToken cancellationToken)
         {
             return client.PutAsync(requestUri, value, formatter, ObjectContent.BuildHeaderValue(mediaType),
                 cancellationToken);
@@ -455,9 +455,9 @@ namespace System.Net.Http
         /// </param>
         /// <returns>A task object representing the asynchronous operation.</returns>
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, Uri requestUri, T value,
-            MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType, CancellationToken cancellationToken)
+            MediaTypeFormatter formatter, MediaTypeHeaderValue? mediaType, CancellationToken cancellationToken)
         {
-            if (client == null) throw Error.ArgumentNull("client");
+            if (client == null) throw Error.ArgumentNull(nameof(client));
 
             var content = new ObjectContent<T>(value, formatter, mediaType);
             return client.PutAsync(requestUri, content, cancellationToken);

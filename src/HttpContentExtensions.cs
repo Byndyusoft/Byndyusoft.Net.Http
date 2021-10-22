@@ -194,7 +194,7 @@ namespace System.Net.Http
 
         private static Task<T> ReadAsAsync<T>(HttpContent content, Type type,
             IEnumerable<MediaTypeFormatter> formatters,
-            IFormatterLogger formatterLogger)
+            IFormatterLogger? formatterLogger)
         {
             return ReadAsAsync<T>(content, type, formatters, formatterLogger, CancellationToken.None);
         }
@@ -205,7 +205,7 @@ namespace System.Net.Http
         // For strongly typed, T == type.GetType()
         private static Task<T> ReadAsAsync<T>(HttpContent content, Type type,
             IEnumerable<MediaTypeFormatter> formatters,
-            IFormatterLogger formatterLogger, CancellationToken cancellationToken)
+            IFormatterLogger? formatterLogger, CancellationToken cancellationToken)
         {
             if (content == null) throw Error.ArgumentNull(nameof(content));
             if (type == null) throw Error.ArgumentNull(nameof(type));
@@ -214,17 +214,16 @@ namespace System.Net.Http
             if (content is ObjectContent objectContent && objectContent.Value != null &&
                 type.IsInstanceOfType(objectContent.Value)) return Task.FromResult((T) objectContent.Value);
 
-            MediaTypeFormatter formatter;
             // Default to "application/octet-stream" if there is no content-type in accordance with section 7.2.1 of the HTTP spec
             var mediaType = content.Headers.ContentType ?? MediaTypeConstants.ApplicationOctetStreamMediaType;
 
-            formatter = new MediaTypeFormatterCollection(formatters).FindReader(type, mediaType);
+            var formatter = new MediaTypeFormatterCollection(formatters).FindReader(type, mediaType);
 
             if (formatter == null)
             {
                 if (content.Headers.ContentLength == 0)
                 {
-                    var defaultValue = (T) MediaTypeFormatter.GetDefaultValueForType(type);
+                    var defaultValue = (T) MediaTypeFormatter.GetDefaultValueForType(type)!;
                     return Task.FromResult(defaultValue);
                 }
 
@@ -235,14 +234,14 @@ namespace System.Net.Http
         }
 
         private static async Task<T> ReadAsAsyncCore<T>(HttpContent content, Type type,
-            IFormatterLogger formatterLogger,
+            IFormatterLogger? formatterLogger,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var stream = await content.ReadAsStreamAsync();
 
             var result = await formatter.ReadFromStreamAsync(type, stream, content, formatterLogger, cancellationToken);
-            return (T) result;
+            return (T) result!;
         }
     }
 }

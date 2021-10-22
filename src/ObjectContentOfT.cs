@@ -32,7 +32,7 @@ namespace System.Net.Http
         ///     The authoritative value of the content's Content-Type header. Can be <c>null</c> in which case the
         ///     <paramref name="formatter">formatter's</paramref> default content type will be used.
         /// </param>
-        public ObjectContent(T value, MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType = null)
+        public ObjectContent(T value, MediaTypeFormatter formatter, MediaTypeHeaderValue? mediaType = null)
             : base(typeof(T), value, formatter, mediaType)
         {
         }

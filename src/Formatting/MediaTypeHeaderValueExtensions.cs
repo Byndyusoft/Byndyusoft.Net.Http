@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http.Headers;
 
 namespace System.Net.Http.Formatting
@@ -21,7 +20,7 @@ namespace System.Net.Http.Formatting
         /// <param name="mediaType1">The first media type.</param>
         /// <param name="mediaType2">The second media type.</param>
         /// <returns><c>true</c> if this is a subset of <paramref name="mediaType2" />; false otherwise.</returns>
-        public static bool IsSubsetOf(this MediaTypeHeaderValue mediaType1, MediaTypeHeaderValue mediaType2)
+        public static bool IsSubsetOf(this MediaTypeHeaderValue mediaType1, MediaTypeHeaderValue? mediaType2)
         {
             return IsSubsetOf(mediaType1, mediaType2, out _);
         }
@@ -42,11 +41,9 @@ namespace System.Net.Http.Formatting
         ///     range, or a full media range
         /// </param>
         /// <returns><c>true</c> if this is a subset of <paramref name="mediaType2" />; false otherwise.</returns>
-        public static bool IsSubsetOf(this MediaTypeHeaderValue mediaType1, MediaTypeHeaderValue mediaType2,
+        public static bool IsSubsetOf(this MediaTypeHeaderValue mediaType1, MediaTypeHeaderValue? mediaType2,
             out MediaTypeHeaderValueRange mediaType2Range)
         {
-            Contract.Assert(mediaType1 != null);
-
             if (mediaType2 == null)
             {
                 mediaType2Range = MediaTypeHeaderValueRange.None;

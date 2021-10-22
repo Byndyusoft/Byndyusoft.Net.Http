@@ -14,7 +14,7 @@ namespace System.Net.Http
         /// <param name="format">A composite format string.</param>
         /// <param name="args">An object array that contains zero or more objects to format.</param>
         /// <returns>The formatted string.</returns>
-        internal static string Format(string format, params object[] args)
+        private static string Format(string format, params object[] args)
         {
             return string.Format(CultureInfo.CurrentCulture, format, args);
         }
@@ -75,15 +75,18 @@ namespace System.Net.Http
         }
 
         /// <summary>
-        /// Creates an <see cref="ArgumentOutOfRangeException"/> with a message saying that the argument must be greater than or equal to <paramref name="minValue"/>.
+        ///     Creates an <see cref="ArgumentOutOfRangeException" /> with a message saying that the argument must be greater than
+        ///     or equal to <paramref name="minValue" />.
         /// </summary>
         /// <param name="parameterName">The name of the parameter that caused the current exception.</param>
         /// <param name="actualValue">The value of the argument that causes this exception.</param>
         /// <param name="minValue">The minimum size of the argument.</param>
-        /// <returns>The logged <see cref="Exception"/>.</returns>
-        internal static ArgumentOutOfRangeException ArgumentMustBeGreaterThanOrEqualTo(string parameterName, object actualValue, object minValue)
+        /// <returns>The logged <see cref="Exception" />.</returns>
+        internal static ArgumentOutOfRangeException ArgumentMustBeGreaterThanOrEqualTo(string parameterName,
+            object actualValue, object minValue)
         {
-            return new ArgumentOutOfRangeException(parameterName, actualValue, Format(Properties.Resources.ArgumentMustBeGreaterThanOrEqualTo, minValue));
+            return new ArgumentOutOfRangeException(parameterName, actualValue,
+                Format(Properties.Resources.ArgumentMustBeGreaterThanOrEqualTo, minValue));
         }
     }
 }

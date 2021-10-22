@@ -57,8 +57,7 @@ namespace System.Net.Http.Formatting
         /// <remarks>
         ///     <para>
         ///         This implementation throws a <see cref="NotSupportedException" />. Derived types should override this method if
-        ///         the formatter
-        ///         supports reading.
+        ///         the formatter supports reading.
         ///     </para>
         ///     <para>
         ///         An implementation of this method should NOT close <paramref name="readStream" /> upon completion. The stream
@@ -73,10 +72,10 @@ namespace System.Net.Http.Formatting
         /// <returns>A <see cref="Task" /> whose result will be an object of the given type.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support reading.</exception>
         /// <seealso cref="CanWriteType(Type)" />
-        public virtual Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger formatterLogger)
+        public virtual Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
+            IFormatterLogger? formatterLogger)
         {
-            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotRead, GetType().Name);
+            return ReadFromStreamAsync(type, readStream, content, formatterLogger, CancellationToken.None);
         }
 
         /// <summary>
@@ -86,8 +85,7 @@ namespace System.Net.Http.Formatting
         /// <remarks>
         ///     <para>
         ///         This implementation throws a <see cref="NotSupportedException" />. Derived types should override this method if
-        ///         the formatter
-        ///         supports reading.
+        ///         the formatter supports reading.
         ///     </para>
         ///     <para>
         ///         An implementation of this method should NOT close <paramref name="readStream" /> upon completion. The stream
@@ -103,10 +101,10 @@ namespace System.Net.Http.Formatting
         /// <returns>A <see cref="Task" /> whose result will be an object of the given type.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support reading.</exception>
         /// <seealso cref="CanReadType(Type)" />
-        public virtual Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger formatterLogger, CancellationToken cancellationToken)
+        public virtual Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
+            IFormatterLogger? formatterLogger, CancellationToken cancellationToken)
         {
-            return ReadFromStreamAsync(type, readStream, content, formatterLogger);
+            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotRead, GetType().Name);
         }
 
         /// <summary>
@@ -134,10 +132,10 @@ namespace System.Net.Http.Formatting
         /// <returns>A <see cref="Task" /> that will perform the write.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support writing.</exception>
         /// <seealso cref="CanReadType(Type)" />
-        public virtual Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content,
+        public virtual Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent content,
             TransportContext transportContext)
         {
-            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWrite, GetType().Name);
+            return WriteToStreamAsync(type, value, writeStream, content, transportContext, CancellationToken.None);
         }
 
         /// <summary>
@@ -166,10 +164,10 @@ namespace System.Net.Http.Formatting
         /// <returns>A <see cref="Task" /> that will perform the write.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support writing.</exception>
         /// <seealso cref="CanWriteType(Type)" />
-        public virtual Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content,
+        public virtual Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent content,
             TransportContext transportContext, CancellationToken cancellationToken)
         {
-            return WriteToStreamAsync(type, value, writeStream, content, transportContext);
+            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWrite, GetType().Name);
         }
 
         /// <summary>
@@ -178,9 +176,9 @@ namespace System.Net.Http.Formatting
         /// </summary>
         /// <param name="contentHeaders">The content headers provided as part of the request or response.</param>
         /// <returns>The <see cref="Encoding" /> to use when reading the request or writing the response.</returns>
-        public Encoding SelectCharacterEncoding(HttpContentHeaders contentHeaders)
+        public Encoding SelectCharacterEncoding(HttpContentHeaders? contentHeaders)
         {
-            Encoding encoding = null;
+            Encoding? encoding = null;
             if (contentHeaders != null && contentHeaders.ContentType != null)
             {
                 // Find encoding based on content type charset parameter
@@ -191,10 +189,9 @@ namespace System.Net.Http.Formatting
                             enc => charset.Equals(enc.WebName, StringComparison.OrdinalIgnoreCase));
             }
 
-            if (encoding == null)
-                // We didn't find a character encoding match based on the content headers.
-                // Instead we try getting the default character encoding.
-                encoding = SupportedEncodings.FirstOrDefault();
+            // We didn't find a character encoding match based on the content headers.
+            // Instead we try getting the default character encoding.
+            encoding ??= SupportedEncodings.FirstOrDefault();
 
             if (encoding == null)
                 // No supported encoding was found so there is no way for us to start reading or writing.
@@ -222,7 +219,7 @@ namespace System.Net.Http.Formatting
         /// <param name="headers">The content headers that should be configured.</param>
         /// <param name="mediaType">The authoritative media type. Can be <c>null</c>.</param>
         public virtual void SetDefaultContentHeaders(Type type, HttpContentHeaders headers,
-            MediaTypeHeaderValue mediaType)
+            MediaTypeHeaderValue? mediaType)
         {
             if (type == null) throw Error.ArgumentNull(nameof(type));
             if (headers == null) throw Error.ArgumentNull(nameof(headers));
@@ -247,8 +244,7 @@ namespace System.Net.Http.Formatting
 
         /// <summary>
         ///     Returns a specialized instance of the <see cref="MediaTypeFormatter" /> that can handle formatting a response for
-        ///     the given
-        ///     parameters. This method is called after a formatter has been selected through content negotiation.
+        ///     the given parameters. This method is called after a formatter has been selected through content negotiation.
         /// </summary>
         /// <remarks>
         ///     The default implementation returns <c>this</c> instance. Derived classes can choose to return a new instance if
@@ -262,7 +258,6 @@ namespace System.Net.Http.Formatting
             MediaTypeHeaderValue mediaType)
         {
             if (type == null) throw Error.ArgumentNull(nameof(type));
-
             if (request == null) throw Error.ArgumentNull(nameof(request));
 
             return this;
@@ -299,7 +294,7 @@ namespace System.Net.Http.Formatting
         /// <summary>
         ///     Gets the default value for the specified type.
         /// </summary>
-        public static object GetDefaultValueForType(Type type)
+        public static object? GetDefaultValueForType(Type type)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
 
@@ -311,9 +306,9 @@ namespace System.Net.Http.Formatting
         ///     Collection class that validates it contains only <see cref="MediaTypeHeaderValue" /> instances
         ///     that are not null and not media ranges.
         /// </summary>
-        internal class MediaTypeHeaderValueCollection : Collection<MediaTypeHeaderValue>
+        private class MediaTypeHeaderValueCollection : Collection<MediaTypeHeaderValue>
         {
-            private static readonly Type MediaTypeHeaderValueType = typeof(MediaTypeHeaderValue);
+            private static readonly Type _mediaTypeHeaderValueType = typeof(MediaTypeHeaderValue);
 
             /// <summary>
             ///     Inserts the <paramref name="item" /> into the collection at the specified <paramref name="index" />.
@@ -344,7 +339,7 @@ namespace System.Net.Http.Formatting
                 var parsedMediaType = new ParsedMediaTypeHeaderValue(item);
                 if (parsedMediaType.IsAllMediaRange || parsedMediaType.IsSubtypeMediaRange)
                     throw Error.Argument("item", Properties.Resources.CannotUseMediaRangeForSupportedMediaType,
-                        MediaTypeHeaderValueType.Name, item.MediaType);
+                        _mediaTypeHeaderValueType.Name, item.MediaType);
             }
         }
     }

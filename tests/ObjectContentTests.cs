@@ -15,8 +15,8 @@ namespace System.Net.Http
         private readonly MediaTypeHeaderValue _jsonHeaderValue = new MediaTypeHeaderValue("application/json");
         private readonly object _value = new object();
 
-        public static TheoryDataSet<Type, object> ValidValueTypePairs =>
-            new TheoryDataSet<Type, object>
+        public static TheoryDataSet<Type, object?> ValidValueTypePairs =>
+            new TheoryDataSet<Type, object?>
             {
                 {typeof(int?), null},
                 {typeof(string), null},
@@ -31,9 +31,9 @@ namespace System.Net.Http
         {
             Func<ObjectContent>[] actions =
             {
-                () => new ObjectContent(null, _value, _formatter),
-                () => new ObjectContent(null, _value, _formatter, "foo/bar"),
-                () => new ObjectContent(null, _value, _formatter, _jsonHeaderValue)
+                () => new ObjectContent(null!, _value, _formatter),
+                () => new ObjectContent(null!, _value, _formatter, "foo/bar"),
+                () => new ObjectContent(null!, _value, _formatter, _jsonHeaderValue)
             };
 
             foreach (var action in actions)
@@ -48,9 +48,9 @@ namespace System.Net.Http
         {
             Func<ObjectContent>[] actions =
             {
-                () => new ObjectContent(typeof(object), _value, null),
-                () => new ObjectContent(typeof(object), _value, null, "foo/bar"),
-                () => new ObjectContent(typeof(object), _value, null, _jsonHeaderValue)
+                () => new ObjectContent(typeof(object), _value, null!),
+                () => new ObjectContent(typeof(object), _value, null!, "foo/bar"),
+                () => new ObjectContent(typeof(object), _value, null!, _jsonHeaderValue)
             };
 
             foreach (var action in actions)
@@ -165,7 +165,7 @@ namespace System.Net.Http
         [Fact]
         public void TryComputeLength_ReturnsFalseAnd0()
         {
-            var oc = new TestableObjectContent(typeof(string), null, _formatter);
+            var oc = new TestableObjectContent(typeof(string), null!, _formatter);
 
             var result = oc.CallTryComputeLength(out var length);
 

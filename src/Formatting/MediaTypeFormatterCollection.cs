@@ -9,9 +9,9 @@ namespace System.Net.Http.Formatting
     /// </summary>
     public class MediaTypeFormatterCollection : Collection<MediaTypeFormatter>
     {
-        private static MediaTypeFormatterCollection _default;
+        private static MediaTypeFormatterCollection? _default;
 
-        private static readonly Type MediaTypeFormatterType = typeof(MediaTypeFormatter);
+        private static readonly Type _mediaTypeFormatterType = typeof(MediaTypeFormatter);
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MediaTypeFormatterCollection" /> class.
@@ -34,7 +34,7 @@ namespace System.Net.Http.Formatting
         }
 
         /// <summary>
-        /// The collection of default <see cref="MediaTypeFormatter"/> instances.
+        ///     The collection of default <see cref="MediaTypeFormatter" /> instances.
         /// </summary>
         public static MediaTypeFormatterCollection Default => _default ??= new MediaTypeFormatterCollection();
 
@@ -44,7 +44,7 @@ namespace System.Net.Http.Formatting
         /// <param name="type">.NET type to read</param>
         /// <param name="mediaType">media type to match on.</param>
         /// <returns>Formatter that can read the type. Null if no formatter found.</returns>
-        public MediaTypeFormatter FindReader(Type type, MediaTypeHeaderValue mediaType)
+        public MediaTypeFormatter? FindReader(Type type, MediaTypeHeaderValue mediaType)
         {
             if (type == null) throw Error.ArgumentNull("type");
             if (mediaType == null) throw Error.ArgumentNull("mediaType");
@@ -64,7 +64,7 @@ namespace System.Net.Http.Formatting
         /// <param name="type">.NET type to read</param>
         /// <param name="mediaType">media type to match on.</param>
         /// <returns>Formatter that can write the type. Null if no formatter found.</returns>
-        public MediaTypeFormatter FindWriter(Type type, MediaTypeHeaderValue mediaType)
+        public MediaTypeFormatter? FindWriter(Type type, MediaTypeHeaderValue mediaType)
         {
             if (type == null) throw Error.ArgumentNull("type");
             if (mediaType == null) throw Error.ArgumentNull("mediaType");
@@ -86,7 +86,7 @@ namespace System.Net.Http.Formatting
             {
                 if (formatter == null)
                     throw Error.Argument("formatters", Properties.Resources.CannotHaveNullInList,
-                        MediaTypeFormatterType.Name);
+                        _mediaTypeFormatterType.Name);
 
                 Add(formatter);
             }
