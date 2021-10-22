@@ -64,11 +64,10 @@ namespace System.Net.Http.Formatting
         /// <param name="content">The <see cref="HttpContent"/> if available. Note that
         /// modifying the headers of the content will have no effect on the generated HTTP message; they should only be used to guide the writing.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        public virtual void WriteToStream(Type type, object value, Stream writeStream, HttpContent content,
+        public virtual void WriteToStream(Type type, object? value, Stream writeStream, HttpContent? content,
             CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            WriteToStream(type, value, writeStream, content);
+            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWriteSync, GetType().Name);
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace System.Net.Http.Formatting
         /// modifying the headers of the content will have no effect on the generated HTTP message; they should only be used to guide the writing.</param>
         public virtual void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWriteSync, GetType().Name);
+            WriteToStream(type, value, writeStream, content, CancellationToken.None);
         }
 
         /// <summary>
@@ -102,8 +101,7 @@ namespace System.Net.Http.Formatting
         public virtual object ReadFromStream(Type type, Stream readStream, HttpContent content,
             IFormatterLogger formatterLogger, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            return ReadFromStream(type, readStream, content, formatterLogger);
+            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotReadSync, GetType().Name);
         }
 
         /// <summary>
@@ -119,7 +117,7 @@ namespace System.Net.Http.Formatting
         /// <returns>An object of the given type.</returns>
         public virtual object ReadFromStream(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
         {
-            throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotReadSync, GetType().Name);
+            return ReadFromStream(type, readStream, content, formatterLogger, CancellationToken.None);
         }
 
         // Sealed because derived classes shouldn't override the async version. Override sync version instead.
@@ -129,7 +127,7 @@ namespace System.Net.Http.Formatting
             return WriteToStreamAsync(type, value, writeStream, content, transportContext, CancellationToken.None);
         }
 
-        public sealed override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content,
+        public sealed override Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent? content,
             TransportContext transportContext, CancellationToken cancellationToken)
         {
             if (type == null)
@@ -153,20 +151,20 @@ namespace System.Net.Http.Formatting
             }
         }
 
-        private void WriteToStreamSync(Type type, object value, Stream writeStream, HttpContent content,
+        private void WriteToStreamSync(Type type, object? value, Stream writeStream, HttpContent content,
             CancellationToken cancellationToken)
         {
             using Stream bufferedStream = GetBufferStream(writeStream, _bufferSizeInBytes);
             WriteToStream(type, value, bufferedStream, content, cancellationToken);
         }
 
-        public sealed override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
+        public sealed override Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
             IFormatterLogger formatterLogger)
         {
             return ReadFromStreamAsync(type, readStream, content, formatterLogger, CancellationToken.None);
         }
 
-        public sealed override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
+        public sealed override Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
             IFormatterLogger formatterLogger, CancellationToken cancellationToken)
         {
             if (type == null)
@@ -189,11 +187,11 @@ namespace System.Net.Http.Formatting
             }
         }
 
-        private object ReadFromStreamSync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger,
+        private object? ReadFromStreamSync(Type type, Stream readStream, HttpContent? content, IFormatterLogger formatterLogger,
             CancellationToken cancellationToken)
         {
             object result;
-            HttpContentHeaders contentHeaders = content?.Headers;
+            var contentHeaders = content?.Headers;
             if (contentHeaders != null && contentHeaders.ContentLength == 0)
             {
                 result = GetDefaultValueForType(type);
