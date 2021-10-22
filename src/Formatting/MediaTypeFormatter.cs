@@ -338,7 +338,7 @@ namespace System.Net.Http.Formatting
 
                 var parsedMediaType = new ParsedMediaTypeHeaderValue(item);
                 if (parsedMediaType.IsAllMediaRange || parsedMediaType.IsSubtypeMediaRange)
-                    throw Error.Argument("item", Properties.Resources.CannotUseMediaRangeForSupportedMediaType,
+                    throw Error.Argument(nameof(item), Properties.Resources.CannotUseMediaRangeForSupportedMediaType,
                         _mediaTypeHeaderValueType.Name, item.MediaType);
             }
         }
