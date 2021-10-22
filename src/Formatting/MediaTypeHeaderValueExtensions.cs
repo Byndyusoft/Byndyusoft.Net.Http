@@ -77,7 +77,7 @@ namespace System.Net.Http.Formatting
 
         public static MediaTypeHeaderValue Clone(this MediaTypeHeaderValue mediaType)
         {
-            return (MediaTypeHeaderValue) ((ICloneable) mediaType).Clone();
+            return (MediaTypeHeaderValue)((ICloneable)mediaType).Clone();
         }
     }
 }

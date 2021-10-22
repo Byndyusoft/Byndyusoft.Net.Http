@@ -1,6 +1,6 @@
-﻿using System.Net.Http.Formatting;
+﻿using Moq;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using Moq;
 using Xunit;
 
 namespace System.Net.Http

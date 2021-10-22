@@ -47,7 +47,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, string requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
+            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue?)null,
                 cancellationToken);
         }
 
@@ -160,7 +160,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, Uri requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
+            return client.PostAsync(requestUri, value, formatter, (MediaTypeHeaderValue?)null,
                 cancellationToken);
         }
 
@@ -273,7 +273,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, string requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
+            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue?)null,
                 cancellationToken);
         }
 
@@ -386,7 +386,7 @@ namespace System.Net.Http
         public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, Uri requestUri, T value,
             MediaTypeFormatter formatter, CancellationToken cancellationToken)
         {
-            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue?) null,
+            return client.PutAsync(requestUri, value, formatter, (MediaTypeHeaderValue?)null,
                 cancellationToken);
         }
 

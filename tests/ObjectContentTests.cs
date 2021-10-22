@@ -1,10 +1,10 @@
+using Moq;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Net.Http.Mocks;
 using System.Threading.Tasks;
-using Moq;
 using Xunit;
 
 namespace System.Net.Http
@@ -150,7 +150,7 @@ namespace System.Net.Http
         {
             var stream = Stream.Null;
             var context = new Mock<TransportContext>().Object;
-            var formatterMock = new Mock<TestableMediaTypeFormatter> {CallBase = true};
+            var formatterMock = new Mock<TestableMediaTypeFormatter> { CallBase = true };
             var oc = new TestableObjectContent(typeof(string), "abc", formatterMock.Object);
             var task = new Task(() => { });
             formatterMock.Setup(f => f.WriteToStreamAsync(typeof(string), "abc", stream, oc, context))

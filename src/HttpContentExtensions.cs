@@ -212,7 +212,7 @@ namespace System.Net.Http
             if (formatters == null) throw Error.ArgumentNull(nameof(formatters));
 
             if (content is ObjectContent objectContent && objectContent.Value != null &&
-                type.IsInstanceOfType(objectContent.Value)) return Task.FromResult((T) objectContent.Value);
+                type.IsInstanceOfType(objectContent.Value)) return Task.FromResult((T)objectContent.Value);
 
             // Default to "application/octet-stream" if there is no content-type in accordance with section 7.2.1 of the HTTP spec
             var mediaType = content.Headers.ContentType ?? MediaTypeConstants.ApplicationOctetStreamMediaType;
@@ -223,7 +223,7 @@ namespace System.Net.Http
             {
                 if (content.Headers.ContentLength == 0)
                 {
-                    var defaultValue = (T) MediaTypeFormatter.GetDefaultValueForType(type)!;
+                    var defaultValue = (T)MediaTypeFormatter.GetDefaultValueForType(type)!;
                     return Task.FromResult(defaultValue);
                 }
 
@@ -241,7 +241,7 @@ namespace System.Net.Http
             var stream = await content.ReadAsStreamAsync();
 
             var result = await formatter.ReadFromStreamAsync(type, stream, content, formatterLogger, cancellationToken);
-            return (T) result!;
+            return (T)result!;
         }
     }
 }

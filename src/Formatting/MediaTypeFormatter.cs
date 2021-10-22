@@ -224,14 +224,14 @@ namespace System.Net.Http.Formatting
             if (type == null) throw Error.ArgumentNull(nameof(type));
             if (headers == null) throw Error.ArgumentNull(nameof(headers));
 
-            if (mediaType != null) headers.ContentType = (MediaTypeHeaderValue) ((ICloneable) mediaType).Clone();
+            if (mediaType != null) headers.ContentType = (MediaTypeHeaderValue)((ICloneable)mediaType).Clone();
 
             // If content type is not set then set it based on supported media types.
             if (headers.ContentType == null)
             {
                 var defaultMediaType = SupportedMediaTypes.FirstOrDefault();
                 if (defaultMediaType != null)
-                    headers.ContentType = (MediaTypeHeaderValue) ((ICloneable) defaultMediaType).Clone();
+                    headers.ContentType = (MediaTypeHeaderValue)((ICloneable)defaultMediaType).Clone();
             }
 
             // If content type charset parameter is not set then set it based on the supported encodings.
