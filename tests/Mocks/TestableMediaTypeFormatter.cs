@@ -1,6 +1,7 @@
-﻿using System.IO;
+using System.IO;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace System.Net.Http.Mocks
@@ -23,7 +24,7 @@ namespace System.Net.Http.Mocks
         }
 
         public override Task WriteToStreamAsync(Type type, object? value, Stream stream, HttpContent content,
-            TransportContext transportContext)
+            TransportContext? transportContext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

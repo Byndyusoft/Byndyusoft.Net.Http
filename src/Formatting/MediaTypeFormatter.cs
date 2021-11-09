@@ -133,7 +133,7 @@ namespace System.Net.Http.Formatting
         /// <exception cref="NotSupportedException">Derived types need to support writing.</exception>
         /// <seealso cref="CanReadType(Type)" />
         public virtual Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent content,
-            TransportContext transportContext)
+            TransportContext? transportContext)
         {
             return WriteToStreamAsync(type, value, writeStream, content, transportContext, CancellationToken.None);
         }
@@ -165,7 +165,7 @@ namespace System.Net.Http.Formatting
         /// <exception cref="NotSupportedException">Derived types need to support writing.</exception>
         /// <seealso cref="CanWriteType(Type)" />
         public virtual Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent content,
-            TransportContext transportContext, CancellationToken cancellationToken)
+            TransportContext? transportContext, CancellationToken cancellationToken)
         {
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWrite, GetType().Name);
         }
