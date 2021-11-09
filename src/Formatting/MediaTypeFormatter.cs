@@ -74,7 +74,7 @@ namespace System.Net.Http.Formatting
         /// <exception cref="NotSupportedException">Derived types need to support reading.</exception>
         /// <seealso cref="CanReadType(Type)" />
         public virtual Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger? formatterLogger = null, CancellationToken cancellationToken = default)
+            IFormatterLogger? formatterLogger, CancellationToken cancellationToken = default)
         {
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotRead, GetType().Name);
         }
@@ -106,7 +106,7 @@ namespace System.Net.Http.Formatting
         /// <exception cref="NotSupportedException">Derived types need to support writing.</exception>
         /// <seealso cref="CanWriteType(Type)" />
         public virtual Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent content,
-            TransportContext? transportContext = null, CancellationToken cancellationToken = default)
+            TransportContext? transportContext, CancellationToken cancellationToken = default)
         {
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWrite, GetType().Name);
         }
@@ -181,27 +181,6 @@ namespace System.Net.Http.Formatting
                 var defaultEncoding = SupportedEncodings.FirstOrDefault();
                 if (defaultEncoding != null) headers.ContentType.CharSet = defaultEncoding.WebName;
             }
-        }
-
-        /// <summary>
-        ///     Returns a specialized instance of the <see cref="MediaTypeFormatter" /> that can handle formatting a response for
-        ///     the given parameters. This method is called after a formatter has been selected through content negotiation.
-        /// </summary>
-        /// <remarks>
-        ///     The default implementation returns <c>this</c> instance. Derived classes can choose to return a new instance if
-        ///     they need to close over any of the parameters.
-        /// </remarks>
-        /// <param name="type">The type being serialized.</param>
-        /// <param name="request">The request.</param>
-        /// <param name="mediaType">The media type chosen for the serialization. Can be <c>null</c>.</param>
-        /// <returns>An instance that can format a response to the given <paramref name="request" />.</returns>
-        public virtual MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request,
-            MediaTypeHeaderValue mediaType)
-        {
-            if (type == null) throw Error.ArgumentNull(nameof(type));
-            if (request == null) throw Error.ArgumentNull(nameof(request));
-
-            return this;
         }
 
         /// <summary>
