@@ -20,7 +20,7 @@ namespace System.Net.Http
         /// <param name="content">The <see cref="HttpContent" /> instance from which to read.</param>
         /// <param name="type">The type of the object to read.</param>
         /// <returns>A task object representing reading the content as an object of the specified type.</returns>
-        public static Task<object> ReadAsAsync(this HttpContent content, Type type)
+        public static Task<object?> ReadAsAsync(this HttpContent content, Type type)
         {
             return content.ReadAsAsync(type, MediaTypeFormatterCollection.Default);
         }
@@ -34,7 +34,7 @@ namespace System.Net.Http
         /// <param name="type">The type of the object to read.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task object representing reading the content as an object of the specified type.</returns>
-        public static Task<object> ReadAsAsync(this HttpContent content, Type type, CancellationToken cancellationToken)
+        public static Task<object?> ReadAsAsync(this HttpContent content, Type type, CancellationToken cancellationToken)
         {
             return content.ReadAsAsync(type, MediaTypeFormatterCollection.Default, cancellationToken);
         }
@@ -48,10 +48,10 @@ namespace System.Net.Http
         /// <param name="type">The type of the object to read.</param>
         /// <param name="formatters">The collection of <see cref="MediaTypeFormatter" /> instances to use.</param>
         /// <returns>A task object representing reading the content as an object of the specified type.</returns>
-        public static Task<object> ReadAsAsync(this HttpContent content, Type type,
+        public static Task<object?> ReadAsAsync(this HttpContent content, Type type,
             IEnumerable<MediaTypeFormatter> formatters)
         {
-            return ReadAsAsync<object>(content, type, formatters, null);
+            return ReadAsAsync<object?>(content, type, formatters, null);
         }
 
         /// <summary>
@@ -64,11 +64,10 @@ namespace System.Net.Http
         /// <param name="formatters">The collection of <see cref="MediaTypeFormatter" /> instances to use.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task object representing reading the content as an object of the specified type.</returns>
-        public static Task<object> ReadAsAsync(this HttpContent content, Type type,
-            IEnumerable<MediaTypeFormatter> formatters,
-            CancellationToken cancellationToken)
+        public static Task<object?> ReadAsAsync(this HttpContent content, Type type,
+            IEnumerable<MediaTypeFormatter> formatters, CancellationToken cancellationToken)
         {
-            return ReadAsAsync<object>(content, type, formatters, null, cancellationToken);
+            return ReadAsAsync<object?>(content, type, formatters, null, cancellationToken);
         }
 
         /// <summary>
@@ -81,11 +80,10 @@ namespace System.Net.Http
         /// <param name="formatters">The collection of <see cref="MediaTypeFormatter" /> instances to use.</param>
         /// <param name="formatterLogger">The <see cref="IFormatterLogger" /> to log events to.</param>
         /// <returns>A task object representing reading the content as an object of the specified type.</returns>
-        public static Task<object> ReadAsAsync(this HttpContent content, Type type,
-            IEnumerable<MediaTypeFormatter> formatters,
-            IFormatterLogger formatterLogger)
+        public static Task<object?> ReadAsAsync(this HttpContent content, Type type,
+            IEnumerable<MediaTypeFormatter> formatters, IFormatterLogger formatterLogger)
         {
-            return ReadAsAsync<object>(content, type, formatters, formatterLogger);
+            return ReadAsAsync<object?>(content, type, formatters, formatterLogger);
         }
 
         /// <summary>
@@ -99,11 +97,10 @@ namespace System.Net.Http
         /// <param name="formatterLogger">The <see cref="IFormatterLogger" /> to log events to.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task object representing reading the content as an object of the specified type.</returns>
-        public static Task<object> ReadAsAsync(this HttpContent content, Type type,
-            IEnumerable<MediaTypeFormatter> formatters,
-            IFormatterLogger formatterLogger, CancellationToken cancellationToken)
+        public static Task<object?> ReadAsAsync(this HttpContent content, Type type,
+            IEnumerable<MediaTypeFormatter> formatters, IFormatterLogger formatterLogger, CancellationToken cancellationToken)
         {
-            return ReadAsAsync<object>(content, type, formatters, formatterLogger, cancellationToken);
+            return ReadAsAsync<object?>(content, type, formatters, formatterLogger, cancellationToken);
         }
 
         /// <summary>
