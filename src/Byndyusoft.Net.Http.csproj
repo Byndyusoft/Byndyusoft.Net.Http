@@ -1,52 +1,53 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <RootNamespace>System.Net.Http</RootNamespace>
-    <Version>0.2.0</Version>
-    <PackageId>Byndyusoft.Net.Http</PackageId>
-    <Title>Byndyusoft.Net.Http</Title>
-    <Authors>Byndyusoft</Authors>
-    <IsPackable>true</IsPackable>
-    <Description>
-      This package adds some extensions to System.Net.Http
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<IsPackable>true</IsPackable>
+		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+		<RootNamespace>System.Net.Http</RootNamespace>
+		<Version>0.2.0</Version>
+		<PackageId>Byndyusoft.Net.Http</PackageId>
+		<Title>Byndyusoft.Net.Http</Title>
+		<Authors>Byndyusoft</Authors>
+		<IsPackable>true</IsPackable>
+		<Description>
+			This package adds some extensions to System.Net.Http
 
-      Commonly Used Types:
-      System.Net.Http.HttpClientExtensions
-      System.Net.Http.HttpContentExtensions
-      System.Net.Http.ObjectContent
-      System.Net.Http.Formatting.MediaTypeFormatter
-    </Description>
-    <PackageTags>Byndyusoft;Net;Http</PackageTags>
-    <RepositoryUrl>https://github.com/Byndyusoft/Byndyusoft.Net.Http</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageIcon>icon.png</PackageIcon>
-    <LangVersion>8.0</LangVersion>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+			Commonly Used Types:
+			System.Net.Http.HttpClientExtensions
+			System.Net.Http.HttpContentExtensions
+			System.Net.Http.ObjectContent
+			System.Net.Http.Formatting.MediaTypeFormatter
+		</Description>
+		<PackageTags>Byndyusoft;Net;Http</PackageTags>
+		<RepositoryUrl>https://github.com/Byndyusoft/Byndyusoft.Net.Http</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>icon.png</PackageIcon>
+		<LangVersion>8.0</LangVersion>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="icon.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\icon.png" Pack="true" PackagePath="icon.png" />
+	</ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.0.0" />
-  </ItemGroup>
+	<ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>
