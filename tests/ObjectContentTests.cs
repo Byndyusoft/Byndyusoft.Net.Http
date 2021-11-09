@@ -1,10 +1,11 @@
+using Moq;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Net.Http.Mocks;
+using System.Threading;
 using System.Threading.Tasks;
-using Moq;
 using Xunit;
 
 namespace System.Net.Http
@@ -15,8 +16,8 @@ namespace System.Net.Http
         private readonly MediaTypeHeaderValue _jsonHeaderValue = new MediaTypeHeaderValue("application/json");
         private readonly object _value = new object();
 
-        public static TheoryDataSet<Type, object> ValidValueTypePairs =>
-            new TheoryDataSet<Type, object>
+        public static TheoryDataSet<Type, object?> ValidValueTypePairs =>
+            new TheoryDataSet<Type, object?>
             {
                 {typeof(int?), null},
                 {typeof(string), null},
@@ -31,9 +32,9 @@ namespace System.Net.Http
         {
             Func<ObjectContent>[] actions =
             {
-                () => new ObjectContent(null, _value, _formatter),
-                () => new ObjectContent(null, _value, _formatter, "foo/bar"),
-                () => new ObjectContent(null, _value, _formatter, _jsonHeaderValue)
+                () => new ObjectContent(null!, _value, _formatter),
+                () => new ObjectContent(null!, _value, _formatter, "foo/bar"),
+                () => new ObjectContent(null!, _value, _formatter, _jsonHeaderValue)
             };
 
             foreach (var action in actions)
@@ -48,9 +49,9 @@ namespace System.Net.Http
         {
             Func<ObjectContent>[] actions =
             {
-                () => new ObjectContent(typeof(object), _value, null),
-                () => new ObjectContent(typeof(object), _value, null, "foo/bar"),
-                () => new ObjectContent(typeof(object), _value, null, _jsonHeaderValue)
+                () => new ObjectContent(typeof(object), _value, null!),
+                () => new ObjectContent(typeof(object), _value, null!, "foo/bar"),
+                () => new ObjectContent(typeof(object), _value, null!, _jsonHeaderValue)
             };
 
             foreach (var action in actions)
@@ -150,10 +151,10 @@ namespace System.Net.Http
         {
             var stream = Stream.Null;
             var context = new Mock<TransportContext>().Object;
-            var formatterMock = new Mock<TestableMediaTypeFormatter> {CallBase = true};
+            var formatterMock = new Mock<TestableMediaTypeFormatter> { CallBase = true };
             var oc = new TestableObjectContent(typeof(string), "abc", formatterMock.Object);
             var task = new Task(() => { });
-            formatterMock.Setup(f => f.WriteToStreamAsync(typeof(string), "abc", stream, oc, context))
+            formatterMock.Setup(f => f.WriteToStreamAsync(typeof(string), "abc", stream, oc, context, CancellationToken.None))
                 .Returns(task).Verifiable();
 
             var result = oc.CallSerializeToStreamAsync(stream, context);
@@ -165,7 +166,7 @@ namespace System.Net.Http
         [Fact]
         public void TryComputeLength_ReturnsFalseAnd0()
         {
-            var oc = new TestableObjectContent(typeof(string), null, _formatter);
+            var oc = new TestableObjectContent(typeof(string), null!, _formatter);
 
             var result = oc.CallTryComputeLength(out var length);
 

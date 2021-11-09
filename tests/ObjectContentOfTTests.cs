@@ -1,6 +1,6 @@
-﻿using System.Net.Http.Formatting;
+﻿using Moq;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using Moq;
 using Xunit;
 
 namespace System.Net.Http
@@ -14,9 +14,9 @@ namespace System.Net.Http
         {
             Func<ObjectContent<string>>[] actions =
             {
-                () => new ObjectContent<string>("", null),
-                () => new ObjectContent<string>("", null, "foo/bar"),
-                () => new ObjectContent<string>("", null, _jsonHeaderValue)
+                () => new ObjectContent<string>("", null!),
+                () => new ObjectContent<string>("", null!, "foo/bar"),
+                () => new ObjectContent<string>("", null!, _jsonHeaderValue)
             };
 
             foreach (var action in actions)
@@ -33,7 +33,7 @@ namespace System.Net.Http
             formatterMock.Setup(f => f.CanWriteType(typeof(string))).Returns(true);
             var formatter = formatterMock.Object;
 
-            var content = new ObjectContent<string>(null, formatter);
+            var content = new ObjectContent<string>(null!, formatter);
 
             Assert.Same(formatter, content.Formatter);
         }

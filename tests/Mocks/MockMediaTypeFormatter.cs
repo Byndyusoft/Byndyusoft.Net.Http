@@ -1,14 +1,12 @@
 ﻿using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-using System.Text;
 
 namespace System.Net.Http.Mocks
 {
     public class MockMediaTypeFormatter : MediaTypeFormatter
     {
         public bool CallBase { get; set; }
-        public Func<Type, bool> CanReadTypeCallback { get; set; }
-        public Func<Type, bool> CanWriteTypeCallback { get; set; }
+        public Func<Type, bool>? CanReadTypeCallback { get; set; }
+        public Func<Type, bool>? CanWriteTypeCallback { get; set; }
 
         internal override bool CanWriteAnyTypes => CanWriteAnyTypesReturn;
 
@@ -28,11 +26,6 @@ namespace System.Net.Http.Mocks
                 throw new InvalidOperationException("CallBase or CanWriteTypeCallback must be set first.");
 
             return CanWriteTypeCallback?.Invoke(type) ?? true;
-        }
-
-        public new Encoding SelectCharacterEncoding(HttpContentHeaders contentHeaders)
-        {
-            return base.SelectCharacterEncoding(contentHeaders);
         }
     }
 }

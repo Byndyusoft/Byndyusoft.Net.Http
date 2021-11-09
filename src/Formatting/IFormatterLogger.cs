@@ -1,4 +1,4 @@
-﻿namespace System.Net.Http.Formatting
+namespace System.Net.Http.Formatting
 {
     /// <summary>
     ///     Interface to log events that occur during formatter reads.

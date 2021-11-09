@@ -21,54 +21,54 @@ namespace System.Net.Http
         public void ApplicationOctetStreamMediaType_ReturnsClone()
         {
             ValidateClones(MediaTypeConstants.ApplicationOctetStreamMediaType,
-                MediaTypeConstants.ApplicationOctetStreamMediaType, null);
+                MediaTypeConstants.ApplicationOctetStreamMediaType, null!);
         }
 
         [Fact]
         public void ApplicationXmlMediaType_ReturnsClone()
         {
             ValidateClones(MediaTypeConstants.ApplicationXmlMediaType, MediaTypeConstants.ApplicationXmlMediaType,
-                null);
+                null!);
         }
 
         [Fact]
         public void ApplicationJsonMediaType_ReturnsClone()
         {
             ValidateClones(MediaTypeConstants.ApplicationJsonMediaType, MediaTypeConstants.ApplicationJsonMediaType,
-                null);
+                null!);
         }
 
         [Fact]
         public void TextXmlMediaType_ReturnsClone()
         {
-            ValidateClones(MediaTypeConstants.TextXmlMediaType, MediaTypeConstants.TextXmlMediaType, null);
+            ValidateClones(MediaTypeConstants.TextXmlMediaType, MediaTypeConstants.TextXmlMediaType, null!);
         }
 
         [Fact]
         public void TextJsonMediaType_ReturnsClone()
         {
-            ValidateClones(MediaTypeConstants.TextJsonMediaType, MediaTypeConstants.TextJsonMediaType, null);
+            ValidateClones(MediaTypeConstants.TextJsonMediaType, MediaTypeConstants.TextJsonMediaType, null!);
         }
 
         [Fact]
         public void ApplicationFormUrlEncodedMediaType_ReturnsClone()
         {
             ValidateClones(MediaTypeConstants.ApplicationFormUrlEncodedMediaType,
-                MediaTypeConstants.ApplicationFormUrlEncodedMediaType, null);
+                MediaTypeConstants.ApplicationFormUrlEncodedMediaType, null!);
         }
 
         [Fact]
         public void ApplicationMessagePackMediaType_ReturnsClone()
         {
             ValidateClones(MediaTypeConstants.ApplicationMessagePackMediaType,
-                MediaTypeConstants.ApplicationMessagePackMediaType, null);
+                MediaTypeConstants.ApplicationMessagePackMediaType, null!);
         }
 
         [Fact]
         public void ApplicationProtobufMediaType_ReturnsClone()
         {
             ValidateClones(MediaTypeConstants.ApplicationProtobufMediaType,
-                MediaTypeConstants.ApplicationProtobufMediaType, null);
+                MediaTypeConstants.ApplicationProtobufMediaType, null!);
         }
     }
 }
