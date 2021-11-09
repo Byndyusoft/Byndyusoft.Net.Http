@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Net.Http.Mocks;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -153,7 +154,7 @@ namespace System.Net.Http
             var formatterMock = new Mock<TestableMediaTypeFormatter> { CallBase = true };
             var oc = new TestableObjectContent(typeof(string), "abc", formatterMock.Object);
             var task = new Task(() => { });
-            formatterMock.Setup(f => f.WriteToStreamAsync(typeof(string), "abc", stream, oc, context))
+            formatterMock.Setup(f => f.WriteToStreamAsync(typeof(string), "abc", stream, oc, context, CancellationToken.None))
                 .Returns(task).Verifiable();
 
             var result = oc.CallSerializeToStreamAsync(stream, context);

@@ -64,36 +64,9 @@ namespace System.Net.Http.Formatting
         /// </param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         public virtual void WriteToStream(Type type, object? value, Stream writeStream, HttpContent content,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
-            if (type == null) throw Error.ArgumentNull(nameof(type));
-            if (writeStream == null) throw Error.ArgumentNull(nameof(writeStream));
-            if (content == null) throw Error.ArgumentNull(nameof(content));
-
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWriteSync, GetType().Name);
-        }
-
-        /// <summary>
-        ///     Writes synchronously to the buffered stream.
-        /// </summary>
-        /// <remarks>
-        ///     An implementation of this method should close <paramref name="writeStream" /> upon completion.
-        /// </remarks>
-        /// <param name="type">The type of the object to write.</param>
-        /// <param name="value">The object value to write.  It may be <c>null</c>.</param>
-        /// <param name="writeStream">The <see cref="Stream" /> to which to write.</param>
-        /// <param name="content">
-        ///     The <see cref="HttpContent" /> if available. Note that
-        ///     modifying the headers of the content will have no effect on the generated HTTP message; they should only be used to
-        ///     guide the writing.
-        /// </param>
-        public virtual void WriteToStream(Type type, object? value, Stream writeStream, HttpContent content)
-        {
-            if (type == null) throw Error.ArgumentNull(nameof(type));
-            if (writeStream == null) throw Error.ArgumentNull(nameof(writeStream));
-            if (content == null) throw Error.ArgumentNull(nameof(content));
-
-            WriteToStream(type, value, writeStream, content, CancellationToken.None);
         }
 
         /// <summary>
@@ -108,52 +81,14 @@ namespace System.Net.Http.Formatting
         /// <param name="formatterLogger">The <see cref="IFormatterLogger" /> to log events to.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>An object of the given type.</returns>
-        public virtual object ReadFromStream(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger? formatterLogger, CancellationToken cancellationToken)
+        public virtual object? ReadFromStream(Type type, Stream readStream, HttpContent content,
+            IFormatterLogger? formatterLogger = null, CancellationToken cancellationToken = default)
         {
-            if (type == null) throw Error.ArgumentNull(nameof(type));
-            if (readStream == null) throw Error.ArgumentNull(nameof(readStream));
-            if (content == null) throw Error.ArgumentNull(nameof(content));
-
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotReadSync, GetType().Name);
         }
 
-        /// <summary>
-        ///     Reads synchronously from the buffered stream.
-        /// </summary>
-        /// <remarks>
-        ///     An implementation of this method should close <paramref name="readStream" /> upon completion.
-        /// </remarks>
-        /// <param name="type">The type of the object to deserialize.</param>
-        /// <param name="readStream">The <see cref="Stream" /> to read.</param>
-        /// <param name="content">The <see cref="HttpContent" /> if available.</param>
-        /// <param name="formatterLogger">The <see cref="IFormatterLogger" /> to log events to.</param>
-        /// <returns>An object of the given type.</returns>
-        public virtual object ReadFromStream(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger? formatterLogger)
-        {
-            if (type == null) throw Error.ArgumentNull(nameof(type));
-            if (readStream == null) throw Error.ArgumentNull(nameof(readStream));
-            if (content == null) throw Error.ArgumentNull(nameof(content));
-
-            return ReadFromStream(type, readStream, content, formatterLogger, CancellationToken.None);
-        }
-
-        // Sealed because derived classes shouldn't override the async version. Override sync version instead.
         public sealed override Task WriteToStreamAsync(Type type, object? value, Stream writeStream,
-            HttpContent content,
-            TransportContext? transportContext)
-        {
-            if (type == null) throw Error.ArgumentNull(nameof(type));
-            if (writeStream == null) throw Error.ArgumentNull(nameof(writeStream));
-            if (content == null) throw Error.ArgumentNull(nameof(content));
-
-            return WriteToStreamAsync(type, value, writeStream, content, transportContext, CancellationToken.None);
-        }
-
-        public sealed override Task WriteToStreamAsync(Type type, object? value, Stream writeStream,
-            HttpContent content,
-            TransportContext? transportContext, CancellationToken cancellationToken)
+            HttpContent content, TransportContext? transportContext = null, CancellationToken cancellationToken = default)
         {
             if (type == null) throw Error.ArgumentNull(nameof(type));
             if (writeStream == null) throw Error.ArgumentNull(nameof(writeStream));
@@ -170,19 +105,6 @@ namespace System.Net.Http.Formatting
             }
         }
 
-        private void WriteToStreamSync(Type type, object? value, Stream writeStream, HttpContent content,
-            CancellationToken cancellationToken)
-        {
-            using Stream bufferedStream = GetBufferStream(writeStream, _bufferSizeInBytes);
-            WriteToStream(type, value, bufferedStream, content, cancellationToken);
-        }
-
-        public sealed override Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger? formatterLogger)
-        {
-            return ReadFromStreamAsync(type, readStream, content, formatterLogger, CancellationToken.None);
-        }
-
         public sealed override Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
             IFormatterLogger? formatterLogger, CancellationToken cancellationToken)
         {
@@ -192,8 +114,8 @@ namespace System.Net.Http.Formatting
 
             try
             {
-                return Task.FromResult(
-                    ReadFromStreamSync(type, readStream, content, formatterLogger, cancellationToken));
+                var syncResult = ReadFromStreamSync(type, readStream, content, formatterLogger, cancellationToken);
+                return Task.FromResult(syncResult);
             }
             catch (Exception e)
             {
@@ -201,13 +123,19 @@ namespace System.Net.Http.Formatting
             }
         }
 
+        private void WriteToStreamSync(Type type, object? value, Stream writeStream, HttpContent content,
+           CancellationToken cancellationToken)
+        {
+            using Stream bufferedStream = GetBufferStream(writeStream, _bufferSizeInBytes);
+            WriteToStream(type, value, bufferedStream, content, cancellationToken);
+        }
+
         private object? ReadFromStreamSync(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger? formatterLogger,
-            CancellationToken cancellationToken)
+            IFormatterLogger? formatterLogger, CancellationToken cancellationToken)
         {
             object? result;
             var contentHeaders = content.Headers;
-            if (contentHeaders != null && contentHeaders.ContentLength == 0)
+            if (contentHeaders.ContentLength == 0)
             {
                 result = GetDefaultValueForType(type);
             }
