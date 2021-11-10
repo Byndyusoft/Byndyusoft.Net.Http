@@ -74,6 +74,7 @@ namespace System.Net.Http
             set => VerifyAndSetObject(value);
         }
 
+        /// <inheritdoc />
         public async ValueTask DisposeAsync()
         {
             await DisposeAsyncCore();

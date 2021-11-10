@@ -100,11 +100,27 @@ namespace System.Net.Http
         }
 
         [Fact]
-        public void Constructor_SetsFormatterProperty()
+        public void Constructor_Tests()
         {
+            var contentType = "application/json";
+
+            var content = new ObjectContent(typeof(object), _value, _formatter, contentType);
+            
+            Assert.Same(_formatter, content.Formatter);
+            Assert.Same(_value, content.Value);
+            Assert.Same(typeof(object), content.ObjectType);
+            Assert.Equal(MediaTypeHeaderValue.Parse(contentType), content.Headers.ContentType);
+        }
+
+        [Fact]
+        public void Value_Setter_Test()
+        {
+            var newValue = "newValue";
             var content = new ObjectContent(typeof(object), _value, _formatter);
 
-            Assert.Same(_formatter, content.Formatter);
+            content.Value = newValue;
+
+            Assert.Same(newValue, content.Value);
         }
 
         [Fact]
@@ -172,6 +188,14 @@ namespace System.Net.Http
 
             Assert.False(result);
             Assert.Equal(-1, length);
+        }
+
+        [Fact]
+        public async Task DisposeAsync()
+        {
+            var content = new ObjectContent(typeof(object), _value, _formatter);
+
+            await content.DisposeAsync();
         }
     }
 }
