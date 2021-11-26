@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Formatting;
+using System.Net.Http.Formatting;
 
 namespace System.Net.Http.Mocks
 {

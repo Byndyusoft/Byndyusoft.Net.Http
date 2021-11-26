@@ -12,7 +12,7 @@ namespace System.Net.Http
 
         public ObjectContentOfTTests()
         {
-            var formatterMock = new Mock<MediaTypeFormatter>{CallBase = true};
+            var formatterMock = new Mock<MediaTypeFormatter> { CallBase = true };
             formatterMock.Setup(f => f.CanWriteType(It.IsAny<Type>())).Returns(true);
             _formatter = formatterMock.Object;
         }
@@ -35,7 +35,7 @@ namespace System.Net.Http
         }
 
         [Fact]
-        public void Constructor_Tests()
+        public void Constructor_StringMediaType_Test()
         {
             var value = "value";
             var contentType = "application/json";
@@ -46,6 +46,20 @@ namespace System.Net.Http
             Assert.Same(value, content.Value);
             Assert.Same(typeof(string), content.ObjectType);
             Assert.Equal(MediaTypeHeaderValue.Parse(contentType), content.Headers.ContentType);
+        }
+
+        [Fact]
+        public void Constructor_TypedMediaType_Test()
+        {
+            var value = "value";
+            var contentType = MediaTypeHeaderValue.Parse("application/json");
+
+            var content = new ObjectContent<string>(value, _formatter, contentType);
+
+            Assert.Same(_formatter, content.Formatter);
+            Assert.Same(value, content.Value);
+            Assert.Same(typeof(string), content.ObjectType);
+            Assert.Equal(contentType, content.Headers.ContentType);
         }
 
         [Fact]

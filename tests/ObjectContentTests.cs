@@ -105,7 +105,7 @@ namespace System.Net.Http
             var contentType = "application/json";
 
             var content = new ObjectContent(typeof(object), _value, _formatter, contentType);
-            
+
             Assert.Same(_formatter, content.Formatter);
             Assert.Same(_value, content.Value);
             Assert.Same(typeof(object), content.ObjectType);
