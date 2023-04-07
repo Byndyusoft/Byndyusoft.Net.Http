@@ -1,4 +1,4 @@
-﻿using Moq;
+using Moq;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -88,6 +88,7 @@ namespace System.Net.Http
             Assert.Equal(
                 "No MediaTypeFormatter is available to read an object of type 'List`1' from content with media type 'foo/bar'.",
                 exception.Message);
+            Assert.Equal(_mediaType, exception.MediaType);
         }
 
         [Fact]

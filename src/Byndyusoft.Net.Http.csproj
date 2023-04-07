@@ -4,7 +4,7 @@
 		<Nullable>enable</Nullable>
 		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<RootNamespace>System.Net.Http</RootNamespace>
-		<Version>0.2.0</Version>
+		<Version>0.3.0</Version>
 		<PackageId>Byndyusoft.Net.Http</PackageId>
 		<Title>Byndyusoft.Net.Http</Title>
 		<Authors>Byndyusoft</Authors>
@@ -16,6 +16,7 @@
 			System.Net.Http.HttpClientExtensions
 			System.Net.Http.HttpContentExtensions
 			System.Net.Http.ObjectContent
+			System.Net.Http.FileContent
 			System.Net.Http.Formatting.MediaTypeFormatter
 		</Description>
 		<PackageTags>Byndyusoft;Net;Http</PackageTags>

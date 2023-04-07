@@ -31,7 +31,7 @@ namespace System.Net.Http.Formatting
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A <see cref="Task" /> whose result will be an object of the given type.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support reading.</exception>
-        public static Task<object?> ReadFromStreamAsync(this MediaTypeFormatter formatter, 
+        public static Task<object?> ReadFromStreamAsync(this MediaTypeFormatter formatter,
             Type type, Stream readStream, HttpContent content, CancellationToken cancellationToken = default)
         {
             if (formatter == null) throw Error.ArgumentNull(nameof(formatter));
@@ -64,7 +64,7 @@ namespace System.Net.Http.Formatting
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A <see cref="Task" /> that will perform the write.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support writing.</exception>
-        public static Task WriteToStreamAsync(this MediaTypeFormatter formatter, 
+        public static Task WriteToStreamAsync(this MediaTypeFormatter formatter,
             Type type, object? value, Stream writeStream, HttpContent content, CancellationToken cancellationToken = default)
         {
             if (formatter == null) throw Error.ArgumentNull(nameof(formatter));

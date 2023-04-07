@@ -36,5 +36,14 @@ namespace System.Net.Http
             : base(typeof(T), value, formatter, mediaType)
         {
         }
+
+        /// <summary>
+        ///     Gets or sets the value of the current <see cref="ObjectContent" />.
+        /// </summary>
+        public new T Value
+        {
+            get => (T)base.Value!;
+            set => base.Value = value;
+        }
     }
 }
