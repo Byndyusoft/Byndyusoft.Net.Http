@@ -24,7 +24,7 @@ namespace System.Net.Http
 
             // act
             var exception = Assert.Throws<ArgumentNullException>(() => new FileContent(stream, 0, null!));
-            
+
             // assert
             Assert.Equal("fileName", exception.ParamName);
         }
@@ -39,16 +39,16 @@ namespace System.Net.Http
             var fileContent = new FileContent(stream, 100, "fileName", "video/mp4");
 
             // assert
-            Assert.Equal(fileContent.FileName, "fileName");
-            Assert.Equal(fileContent.Length, 100);
-            Assert.Equal(fileContent.MediaType, "video/mp4");
+            Assert.Equal("fileName", fileContent.FileName);
+            Assert.Equal(100, fileContent.Length);
+            Assert.Equal("video/mp4", fileContent.MediaType);
         }
 
         [Fact]
         public void OpenReadStream_Test()
         {
             // arrange
-            var content = Enumerable.Range(0, 100).Select(x => (byte) x).ToArray();
+            var content = Enumerable.Range(0, 100).Select(x => (byte)x).ToArray();
 
             // act
             var fileContent = new FileContent(new MemoryStream(content), content.Length, "fileName");
