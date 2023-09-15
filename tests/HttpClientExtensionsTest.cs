@@ -42,7 +42,7 @@ namespace System.Net.Http
                 _client.PostAsync((string)null!, new object(), new TestableMediaTypeFormatter(), "text/json"));
 
             Assert.Equal(
-                "An invalid request URI was provided. The request URI must either be an absolute URI or BaseAddress must be set.",
+                "An invalid request URI was provided. Either the request URI must be an absolute URI or BaseAddress must be set.",
                 exception.Message);
         }
 
@@ -54,7 +54,7 @@ namespace System.Net.Http
             var response = await _client.PostAsync("myapi/", new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Equal("http://example.com/myapi/", request.RequestUri.ToString());
+            Assert.Equal("http://example.com/myapi/", request!.RequestUri!.ToString());
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
             Assert.Equal("utf-16", request.Content.Headers.ContentType.CharSet);
         }
 
@@ -77,7 +77,7 @@ namespace System.Net.Http
                 CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace System.Net.Http
             var response = await _client.PostAsync("http://example.com/myapi/", new object(), _formatter, mediaType);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            var content = Assert.IsType<ObjectContent<object>>(request.Content);
+            var content = Assert.IsType<ObjectContent<object>>(request!.Content);
             Assert.Same(_formatter, content.Formatter);
         }
 
@@ -108,7 +108,7 @@ namespace System.Net.Http
             var response = await _client.PostAsync("http://example.com/myapi/", new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Same(HttpMethod.Post, request.Method);
+            Assert.Same(HttpMethod.Post, request!.Method);
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace System.Net.Http
                 _client.PutAsync((string)null!, new object(), new TestableMediaTypeFormatter(), "text/json"));
 
             Assert.Equal(
-                "An invalid request URI was provided. The request URI must either be an absolute URI or BaseAddress must be set.",
+                "An invalid request URI was provided. Either the request URI must be an absolute URI or BaseAddress must be set.",
                 exception.Message);
         }
 
@@ -149,7 +149,7 @@ namespace System.Net.Http
             var response = await _client.PutAsync("myapi/", new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Equal("http://example.com/myapi/", request.RequestUri.ToString());
+            Assert.Equal("http://example.com/myapi/", request!.RequestUri!.ToString());
         }
 
         [Fact]
@@ -159,7 +159,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
             Assert.Equal("utf-16", request.Content.Headers.ContentType.CharSet);
         }
 
@@ -170,7 +170,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            var content = Assert.IsType<ObjectContent<object>>(request.Content);
+            var content = Assert.IsType<ObjectContent<object>>(request!.Content);
             Assert.Same(_formatter, content.Formatter);
         }
 
@@ -183,7 +183,7 @@ namespace System.Net.Http
                 CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -194,7 +194,7 @@ namespace System.Net.Http
             var response = await _client.PutAsync("http://example.com/myapi/", new object(), _formatter, mediaType);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -203,7 +203,7 @@ namespace System.Net.Http
             var response = await _client.PutAsync("http://example.com/myapi/", new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Same(HttpMethod.Put, request.Method);
+            Assert.Same(HttpMethod.Put, request!.Method);
         }
 
         [Fact]
@@ -233,7 +233,7 @@ namespace System.Net.Http
                 _client.PostAsync((Uri)null!, new object(), new TestableMediaTypeFormatter(), "text/json"));
 
             Assert.Equal(
-                "An invalid request URI was provided. The request URI must either be an absolute URI or BaseAddress must be set.",
+                "An invalid request URI was provided. Either the request URI must be an absolute URI or BaseAddress must be set.",
                 exception.Message);
         }
 
@@ -245,7 +245,7 @@ namespace System.Net.Http
             var response = await _client.PostAsync(new Uri("myapi/", UriKind.Relative), new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Equal("http://example.com/myapi/", request.RequestUri.ToString());
+            Assert.Equal("http://example.com/myapi/", request!.RequestUri!.ToString());
         }
 
         [Fact]
@@ -255,7 +255,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
             Assert.Equal("utf-16", request.Content.Headers.ContentType.CharSet);
         }
 
@@ -266,7 +266,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            var content = Assert.IsType<ObjectContent<object>>(request.Content);
+            var content = Assert.IsType<ObjectContent<object>>(request!.Content);
             Assert.Same(_formatter, content.Formatter);
         }
 
@@ -278,7 +278,7 @@ namespace System.Net.Http
                 mediaType, CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -290,7 +290,7 @@ namespace System.Net.Http
                 mediaType);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -299,7 +299,7 @@ namespace System.Net.Http
             var response = await _client.PostAsync(new Uri("http://example.com/myapi/"), new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Same(HttpMethod.Post, request.Method);
+            Assert.Same(HttpMethod.Post, request!.Method);
         }
 
         [Fact]
@@ -328,7 +328,7 @@ namespace System.Net.Http
                 _client.PutAsync((Uri)null!, new object(), new TestableMediaTypeFormatter(), "text/json"));
 
             Assert.Equal(
-                "An invalid request URI was provided. The request URI must either be an absolute URI or BaseAddress must be set.",
+                "An invalid request URI was provided. Either the request URI must be an absolute URI or BaseAddress must be set.",
                 exception.Message);
         }
 
@@ -340,7 +340,7 @@ namespace System.Net.Http
             var response = await _client.PutAsync(new Uri("myapi/", UriKind.Relative), new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Equal("http://example.com/myapi/", request.RequestUri.ToString());
+            Assert.Equal("http://example.com/myapi/", request!.RequestUri!.ToString());
         }
 
         [Fact]
@@ -350,7 +350,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
             Assert.Equal("utf-16", request.Content.Headers.ContentType.CharSet);
         }
 
@@ -361,7 +361,7 @@ namespace System.Net.Http
                 _mediaTypeHeader, CancellationToken.None);
 
             var request = response.RequestMessage;
-            var content = Assert.IsType<ObjectContent<object>>(request.Content);
+            var content = Assert.IsType<ObjectContent<object>>(request!.Content);
             Assert.Same(_formatter, content.Formatter);
         }
 
@@ -373,7 +373,7 @@ namespace System.Net.Http
                 mediaType, CancellationToken.None);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -385,7 +385,7 @@ namespace System.Net.Http
                 mediaType);
 
             var request = response.RequestMessage;
-            Assert.Equal("foo/bar", request.Content.Headers.ContentType.MediaType);
+            Assert.Equal("foo/bar", request!.Content!.Headers.ContentType!.MediaType);
         }
 
         [Fact]
@@ -394,7 +394,7 @@ namespace System.Net.Http
             var response = await _client.PutAsync(new Uri("http://example.com/myapi/"), new object(), _formatter);
 
             var request = response.RequestMessage;
-            Assert.Same(HttpMethod.Put, request.Method);
+            Assert.Same(HttpMethod.Put, request!.Method);
         }
 
         [Fact]

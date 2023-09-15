@@ -16,9 +16,6 @@ namespace System.Net.Http
         public FileContent(Stream stream, long length, string fileName, string? mediaType = null)
             : this(stream, length, fileName, BuildHeaderValue(mediaType))
         {
-            _stream = stream;
-            _length = length;
-            _fileName = fileName;
         }
 
         public FileContent(Stream stream, long length, string fileName, MediaTypeHeaderValue? mediaType)
@@ -50,10 +47,9 @@ namespace System.Net.Http
         public string MediaType => Headers.ContentType.MediaType;
 
         /// <summary>
-        ///     Opens the request stream for reading the file.
+        ///     Get stream for reading the file.
         /// </summary>
-        /// <returns><see cref="Stream"/></returns>
-        public Stream OpenReadStream() => _stream;
+        public Stream Stream => _stream;
 
         protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
         {

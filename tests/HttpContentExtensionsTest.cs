@@ -153,7 +153,7 @@ namespace System.Net.Http
         {
             var content = new StringContent("");
             _formatterMock.Setup(f => f.CanReadType(typeof(string))).Returns(true);
-            _formatterMock.Object.SupportedMediaTypes.Add(content.Headers.ContentType);
+            _formatterMock.Object.SupportedMediaTypes.Add(content.Headers.ContentType!);
             _formatterMock
                 .Setup(f => f.ReadFromStreamAsync(It.IsAny<Type>(), It.IsAny<Stream>(), It.IsAny<HttpContent>(),
                     It.IsAny<IFormatterLogger>(), _cancellationToken))
@@ -192,7 +192,7 @@ namespace System.Net.Http
             _formatterMock.Setup(f => f.CanWriteType(typeof(object))).Returns(true);
             _formatterMock.Setup(f => f.CanReadType(It.IsAny<Type>())).Returns(true);
             var content = new ObjectContent<object>(null!, _formatterMock.Object);
-            SetupUpRoundTripSerialization(type => null!);
+            SetupUpRoundTripSerialization(_ => null!);
 
             Assert.Null(await content.ReadAsAsync<object>(_formatters, _cancellationToken));
             Assert.Null(await content.ReadAsAsync<TestClass>(_formatters, _cancellationToken));
@@ -233,7 +233,7 @@ namespace System.Net.Http
             _formatterMock.Setup(f => f.CanReadType(typeof(string))).Returns(true);
             var value = new TestClass();
             var content = new ObjectContent<TestClass>(value, _formatterMock.Object, _mediaType);
-            SetupUpRoundTripSerialization(type => new TestClass());
+            SetupUpRoundTripSerialization(_ => new TestClass());
 
             await Assert.ThrowsAsync<InvalidCastException>(() =>
                 content.ReadAsAsync<string>(_formatters, _cancellationToken));
@@ -374,7 +374,7 @@ namespace System.Net.Http
             _formatterMock.Setup(f => f.ReadFromStreamAsync(It.IsAny<Type>(), It.IsAny<Stream>(),
                     It.IsAny<HttpContent>(), It.IsAny<IFormatterLogger>(), _cancellationToken))
                 .Returns<Type, Stream, HttpContent, IFormatterLogger, CancellationToken>(
-                    (type, stream, content, logger, ct) =>
+                    (type, _, _, _, _) =>
                         Task.FromResult(factory(type)));
         }
 
@@ -394,12 +394,12 @@ namespace System.Net.Http
                 return base.CreateContentReadStreamAsync();
             }
 
-            protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+            protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context)
             {
                 return SerializeToStreamAsyncPublic(stream, context);
             }
 
-            public abstract Task SerializeToStreamAsyncPublic(Stream stream, TransportContext context);
+            public abstract Task SerializeToStreamAsyncPublic(Stream stream, TransportContext? context);
 
             protected override bool TryComputeLength(out long length)
             {

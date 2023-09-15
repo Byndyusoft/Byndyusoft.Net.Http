@@ -45,14 +45,14 @@ namespace System.Net.Http
         }
 
         [Fact]
-        public void OpenReadStream_Test()
+        public void Stream_Test()
         {
             // arrange
             var content = Enumerable.Range(0, 100).Select(x => (byte)x).ToArray();
 
             // act
             var fileContent = new FileContent(new MemoryStream(content), content.Length, "fileName");
-            using var stream = fileContent.OpenReadStream();
+            using var stream = fileContent.Stream;
 
             // assert
             var ms = new MemoryStream();
