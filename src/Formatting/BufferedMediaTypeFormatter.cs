@@ -81,14 +81,14 @@ namespace System.Net.Http.Formatting
         /// <param name="formatterLogger">The <see cref="IFormatterLogger" /> to log events to.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>An object of the given type.</returns>
-        public virtual object? ReadFromStream(Type type, Stream readStream, HttpContent content,
+        public virtual object ReadFromStream(Type type, Stream readStream, HttpContent content,
             IFormatterLogger? formatterLogger = null, CancellationToken cancellationToken = default)
         {
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotReadSync, GetType().Name);
         }
 
         public sealed override Task WriteToStreamAsync(Type type, object? value, Stream writeStream,
-            HttpContent content, TransportContext? transportContext = null, CancellationToken cancellationToken = default)
+            HttpContent? content, TransportContext? transportContext, CancellationToken cancellationToken = default)
         {
             if (type == null) throw Error.ArgumentNull(nameof(type));
             if (writeStream == null) throw Error.ArgumentNull(nameof(writeStream));
@@ -105,8 +105,8 @@ namespace System.Net.Http.Formatting
             }
         }
 
-        public sealed override Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
-            IFormatterLogger? formatterLogger, CancellationToken cancellationToken)
+        public sealed override Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent? content,
+            IFormatterLogger? formatterLogger, CancellationToken cancellationToken = default)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
             if (readStream == null) throw new ArgumentNullException(nameof(readStream));
