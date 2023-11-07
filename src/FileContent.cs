@@ -51,6 +51,16 @@ namespace System.Net.Http
         /// </summary>
         public Stream Stream => _stream;
 
+        /// <summary>
+        ///     Opens the request stream for reading the file.
+        /// </summary>
+        /// <returns><see cref="Stream"/></returns>
+        public Stream OpenReadStream()
+        {
+            _stream.Seek(0, SeekOrigin.Begin);
+            return _stream;
+        }
+
         protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
         {
             await _stream.CopyToAsync(stream);

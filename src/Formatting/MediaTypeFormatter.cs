@@ -73,7 +73,7 @@ namespace System.Net.Http.Formatting
         /// <returns>A <see cref="Task" /> whose result will be an object of the given type.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support reading.</exception>
         /// <seealso cref="CanReadType(Type)" />
-        public virtual Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content,
+        public virtual Task<object?> ReadFromStreamAsync(Type type, Stream readStream, HttpContent? content,
             IFormatterLogger? formatterLogger, CancellationToken cancellationToken = default)
         {
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotRead, GetType().Name);
@@ -105,7 +105,7 @@ namespace System.Net.Http.Formatting
         /// <returns>A <see cref="Task" /> that will perform the write.</returns>
         /// <exception cref="NotSupportedException">Derived types need to support writing.</exception>
         /// <seealso cref="CanWriteType(Type)" />
-        public virtual Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent content,
+        public virtual Task WriteToStreamAsync(Type type, object? value, Stream writeStream, HttpContent? content,
             TransportContext? transportContext, CancellationToken cancellationToken = default)
         {
             throw Error.NotSupported(Properties.Resources.MediaTypeFormatterCannotWrite, GetType().Name);
