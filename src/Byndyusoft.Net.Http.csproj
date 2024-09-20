@@ -4,7 +4,7 @@
 		<Nullable>enable</Nullable>
 		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<RootNamespace>System.Net.Http</RootNamespace>
-		<Version>0.4.1</Version>
+		<Version>0.4.2</Version>
 		<PackageId>Byndyusoft.Net.Http</PackageId>
 		<Title>Byndyusoft.Net.Http</Title>
 		<Authors>Byndyusoft</Authors>
