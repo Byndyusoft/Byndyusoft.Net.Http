@@ -1,5 +1,6 @@
 using System.IO;
 using System.Net.Http.Headers;
+using System.Net.Http.Internal;
 using System.Threading.Tasks;
 
 namespace System.Net.Http
@@ -58,7 +59,7 @@ namespace System.Net.Http
         public Stream OpenReadStream()
         {
             _stream.Seek(0, SeekOrigin.Begin);
-            return _stream;
+            return new NonClosingDelegatingStream(_stream, Length);
         }
 
         protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
