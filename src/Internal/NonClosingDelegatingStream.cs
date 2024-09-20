@@ -1,5 +1,5 @@
 using System.IO;
-using  System.Xml;
+using System.Xml;
 using System.Net.Http.Formatting;
 
 namespace System.Net.Http.Internal
@@ -14,8 +14,8 @@ namespace System.Net.Http.Internal
     /// </summary>
     internal class NonClosingDelegatingStream : DelegatingStream
     {
-        public NonClosingDelegatingStream(Stream innerStream)
-            : base(innerStream)
+        public NonClosingDelegatingStream(Stream innerStream, long? length = null)
+            : base(innerStream, length)
         {
         }
 

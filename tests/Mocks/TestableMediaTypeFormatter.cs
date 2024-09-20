@@ -23,8 +23,8 @@ namespace System.Net.Http.Mocks
             return true;
         }
 
-        public override Task WriteToStreamAsync(Type type, object? value, Stream stream, HttpContent content,
-            TransportContext? transportContext, CancellationToken cancellationToken)
+        public override Task WriteToStreamAsync(Type type, object? value, Stream stream, HttpContent? content,
+            TransportContext? transportContext, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

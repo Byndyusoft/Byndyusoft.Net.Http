@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +11,12 @@ namespace System.Net.Http.Internal
     internal abstract class DelegatingStream : Stream
     {
         private readonly Stream _innerStream;
+        private readonly long? _length;
 
-        protected DelegatingStream(Stream innerStream)
+        protected DelegatingStream(Stream innerStream, long? length = null)
         {
             _innerStream = innerStream ?? throw Error.ArgumentNull(nameof(innerStream));
+            _length = length;
         }
 
         public override bool CanRead => _innerStream.CanRead;
@@ -23,7 +25,7 @@ namespace System.Net.Http.Internal
 
         public override bool CanWrite => _innerStream.CanWrite;
 
-        public override long Length => _innerStream.Length;
+        public override long Length => _length ?? _innerStream.Length;
 
         public override long Position
         {
