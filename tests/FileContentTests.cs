@@ -7,23 +7,23 @@ namespace System.Net.Http
     public class FileContentTests
     {
         [Fact]
-        public void Constructor_WhenStreamArgumentIsNull_ThrowsEsxception()
+        public void Constructor_WhenStreamArgumentIsNull_ThrowsException()
         {
             // act
-            var exception = Assert.Throws<ArgumentNullException>(() => new FileContent(null!, 0, "fileName"));
+            var exception = Assert.Throws<ArgumentNullException>(() => new FileContent(null!, "fileName", 0));
 
             // assert
             Assert.Equal("stream", exception.ParamName);
         }
 
         [Fact]
-        public void Constructor_WhenFileNameArgumentIsNull_ThrowsEsxception()
+        public void Constructor_WhenFileNameArgumentIsNull_ThrowsException()
         {
             // arrange
             var stream = new MemoryStream();
 
             // act
-            var exception = Assert.Throws<ArgumentNullException>(() => new FileContent(stream, 0, null!));
+            var exception = Assert.Throws<ArgumentNullException>(() => new FileContent(stream, null!, 0));
 
             // assert
             Assert.Equal("fileName", exception.ParamName);
@@ -36,7 +36,7 @@ namespace System.Net.Http
             var stream = new MemoryStream();
 
             // act
-            var fileContent = new FileContent(stream, 100, "fileName", "video/mp4");
+            var fileContent = new FileContent(stream, "fileName", 100, "video/mp4");
 
             // assert
             Assert.Equal("fileName", fileContent.FileName);
@@ -51,13 +51,39 @@ namespace System.Net.Http
             var content = Enumerable.Range(0, 100).Select(x => (byte)x).ToArray();
 
             // act
-            var fileContent = new FileContent(new MemoryStream(content), content.Length, "fileName");
+            var fileContent = new FileContent(new MemoryStream(content),  "fileName", content.Length);
             using var stream = fileContent.Stream;
 
             // assert
             var ms = new MemoryStream();
             stream.CopyTo(ms);
             Assert.Equal(content, ms.ToArray());
+        }
+
+        [Fact]
+        public void Length_IfSpecified_Test()
+        {
+            // arrange
+            var stream = new MemoryStream();
+
+            // act
+            var fileContent = new FileContent(stream, "fileName", 100);
+
+            // assert
+            Assert.Equal(100, fileContent.Length);
+        }
+
+        [Fact]
+        public void Length_FromStreamIfNotSpecified_Test()
+        {
+            // arrange
+            var stream = new MemoryStream(new byte[100]);
+
+            // act
+            var fileContent = new FileContent(stream, "fileName");
+
+            // assert
+            Assert.Equal(stream.Length, fileContent.Length);
         }
     }
 }

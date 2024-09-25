@@ -11,18 +11,30 @@ namespace System.Net.Http
     public class FileContent : HttpContent
     {
         private readonly Stream _stream;
-        private readonly long _length;
+        private readonly long? _length;
         private readonly string _fileName;
 
-        public FileContent(Stream stream, long length, string fileName, string? mediaType = null)
-            : this(stream, length, fileName, BuildHeaderValue(mediaType))
+        [Obsolete("Use constructor (stream, fileName, length, mediaType) instead")]
+        public FileContent(Stream stream, long? length, string fileName, MediaTypeHeaderValue? mediaType)
+            : this(stream, fileName, length, mediaType)
         {
         }
 
-        public FileContent(Stream stream, long length, string fileName, MediaTypeHeaderValue? mediaType)
+        [Obsolete("Use constructor (stream, fileName, length, mediaType) instead")]
+        public FileContent(Stream stream, long? length, string fileName, string? mediaType = null)
+            : this(stream,  fileName, length, BuildHeaderValue(mediaType))
+        {
+        }
+
+        public FileContent(Stream stream, string fileName, long? length = null, string? mediaType = null)
+            : this(stream, fileName, length, BuildHeaderValue(mediaType))
+        {
+        }
+
+        public FileContent(Stream stream, string fileName, long? length, MediaTypeHeaderValue? mediaType)
         {
             if (ReferenceEquals(stream, null)) throw Error.ArgumentNull(nameof(stream));
-            if (ReferenceEquals(fileName,null)) throw Error.ArgumentNull(nameof(fileName));
+            if (ReferenceEquals(fileName, null)) throw Error.ArgumentNull(nameof(fileName));
 
             _stream = stream!;
             _length = length;
@@ -35,7 +47,7 @@ namespace System.Net.Http
         /// <summary>
         ///     Gets the file length in bytes.
         /// </summary>
-        public long Length => _length;
+        public long Length => _length ?? _stream.Length;
 
         /// <summary>
         ///     Gets the file name.
@@ -56,10 +68,10 @@ namespace System.Net.Http
         ///     Opens the request stream for reading the file.
         /// </summary>
         /// <returns><see cref="Stream"/></returns>
-        public Stream OpenReadStream()
+        public virtual Stream OpenReadStream()
         {
             _stream.Seek(0, SeekOrigin.Begin);
-            return new NonClosingDelegatingStream(_stream, Length);
+            return new NonClosingDelegatingStream(_stream, _length);
         }
 
         protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
@@ -69,8 +81,8 @@ namespace System.Net.Http
 
         protected override bool TryComputeLength(out long length)
         {
-            length = _length;
-            return true;
+            length = _length ?? 0;
+            return _length != null;
         }
 
         protected override void Dispose(bool disposing)
