@@ -46,7 +46,7 @@ namespace System.Net.Http
 
             if (!formatter.CanWriteType(type))
                 throw Error.InvalidOperation(Properties.Resources.ObjectContent_FormatterCannotWriteType,
-                    formatter.GetType().FullName, type.Name);
+                    formatter.GetType().FullName!, type.Name);
 
             Formatter = formatter;
             ObjectType = type;
@@ -141,6 +141,34 @@ namespace System.Net.Http
             }
 
             _value = value;
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the <see cref="ObjectContent{T}" /> class.
+        /// </summary>
+        /// <param name="value">The value of the object this instance will contain.</param>
+        /// <param name="formatter">The formatter to use when serializing the value.</param>
+        /// <param name="mediaType">
+        ///     The authoritative value of the content's Content-Type header. Can be <c>null</c> in which case the
+        ///     <paramref name="formatter">formatter's</paramref> default content type will be used.
+        /// </param>
+        public static ObjectContent<T> Create<T>(T value, MediaTypeFormatter formatter, string mediaType)
+        {
+            return new ObjectContent<T>(value, formatter, mediaType);
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the <see cref="ObjectContent{T}" /> class.
+        /// </summary>
+        /// <param name="value">The value of the object this instance will contain.</param>
+        /// <param name="formatter">The formatter to use when serializing the value.</param>
+        /// <param name="mediaType">
+        ///     The authoritative value of the content's Content-Type header. Can be <c>null</c> in which case the
+        ///     <paramref name="formatter">formatter's</paramref> default content type will be used.
+        /// </param>
+        public static ObjectContent<T> Create<T>(T value, MediaTypeFormatter formatter, MediaTypeHeaderValue? mediaType = null)
+        {
+            return new ObjectContent<T>(value, formatter, mediaType);
         }
     }
 }
