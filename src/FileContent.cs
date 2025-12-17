@@ -1,11 +1,14 @@
 using System.IO;
 using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace System.Net.Http
 {
     /// <summary>
     ///     Provides HTTP content based on a file content.
     /// </summary>
+    [JsonConverter(typeof(FileContentJsonConverter))]
     public class FileContent : StreamContent
     {
         private readonly Stream _stream;
@@ -80,6 +83,36 @@ namespace System.Net.Http
         {
             if (ReferenceEquals(value, null)) throw Error.ArgumentNull(argName);
             return value;
+        }
+
+        internal sealed class FileContentJsonConverter : JsonConverter<FileContent>
+        {
+            public override FileContent Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                throw new NotSupportedException();
+            }
+
+            public override void Write(Utf8JsonWriter writer, FileContent value, JsonSerializerOptions options)
+            {
+                writer.WriteStartObject();
+
+                var lengthPropertyName = nameof(Length);
+                lengthPropertyName =
+                    options.PropertyNamingPolicy?.ConvertName(lengthPropertyName) ?? lengthPropertyName;
+                writer.WriteNumber(lengthPropertyName, value.Length);
+
+                var fileNamePropertyName = nameof(FileName);
+                fileNamePropertyName =
+                    options.PropertyNamingPolicy?.ConvertName(fileNamePropertyName) ?? fileNamePropertyName;
+                writer.WriteString(fileNamePropertyName, value.FileName);
+
+                var mediaTypePropertyName = nameof(MediaType);
+                mediaTypePropertyName =
+                    options.PropertyNamingPolicy?.ConvertName(mediaTypePropertyName) ?? mediaTypePropertyName;
+                writer.WriteString(mediaTypePropertyName, value.MediaType);
+
+                writer.WriteEndObject();
+            }
         }
     }
 }
